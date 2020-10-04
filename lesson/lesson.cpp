@@ -48,7 +48,6 @@ bool isPlagiarism(char text1[], char text2[])
 {
 	char word[N];
 	int length = 0, sameWords = 0, wordText1 = 0;
-
 	for (int i = 0; text1[i] != '\0'; i++)
 	{
 		if (isSeparator(text1[i]) != true) {
