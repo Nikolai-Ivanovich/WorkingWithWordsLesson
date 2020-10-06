@@ -16,7 +16,7 @@ bool compareString(char newString[], char oldString[]);
 void printfMaxLengthWord(char text[], char maxLengthWord[]);
 void printfString(char string[]);
 bool isPlagiarism(char text1[], char text2[]);
-bool isStringConsistWord(char text[], char word[]);
+bool isStringConsistPhrase(char text[], char word[]);
 
 int main() {
 	char text1[N] = "To fix        this !! error, compare compare use of identifier identifier to the identifier declaration for case and spelling. Verify that scope resolution operators and namespace using directives are used correctly!";
@@ -58,7 +58,7 @@ bool isPlagiarism(char text1[], char text2[])
 				length = 0;
 
 				wordText1++;
-				if (isStringConsistWord(text2, word) == true)
+				if (isStringConsistPhrase(text2, word) == true)
 				{
 					sameWords++;
 				}
@@ -73,7 +73,7 @@ bool isPlagiarism(char text1[], char text2[])
 		return false;
 }
 
-bool isStringConsistWord(char text[], char word[])
+bool isStringConsistPhrase(char text[], char word[])
 {
 	for (int i = 0; text[i] != '\0'; i++)
 	{
