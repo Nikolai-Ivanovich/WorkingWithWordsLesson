@@ -19,7 +19,7 @@ bool isPlagiarism(char text1[], char text2[]);
 bool isStringConsistWord(char text[], char word[]);
 
 int main() {
-	char text1[N] = "To fix this error, compare use of identifier identifier to the identifier declaration for case and spelling. Verify that scope resolution operators and namespace using directives are used correctly!";
+	char text1[N] = "To fix        this !! error, compare compare use of identifier identifier to the identifier declaration for case and spelling. Verify that scope resolution operators and namespace using directives are used correctly!";
 	//char text2[N] = "To remove this remove, functions from of the to the declaration case for case and Verify. Verscopeify that Verify namespace operators and directives using used are used correctly!";
 	char text2[N] = "Changes to remove obsolete functions from the C Runtime Library in Visual Studio 2015 can cause C3861. To resolve this error, remove references to these functions or replace them with their secure alternatives, if any. For more information, see Obsolete Functions!";
 	char maxLengthWord[N];
@@ -39,7 +39,7 @@ int main() {
 	if (isPlagiarism(text1, text2))
 		cout << endl << "Text1 and text2 - plagiarism.";
 	else
-		cout << endl << "Text1 and text are not plagiarized.";
+		cout << endl << "Text1 and text2 are not plagiarized.";
 
 	return 0;
 }
