@@ -2,8 +2,9 @@
 using namespace std;
 #define N 512
 #define PLAGIARISMRATE 40
+#define WORDSINPHRASE 3
 
-bool isPlagiarism(char myText[], char originalText[], int n);
+double getPercentPlagiarism(char myText[], char originalText[]);
 bool isStringConsistPhrase(char text[], char word[]);
 void copyString(char newString[], char oldString[]);
 bool compareString(char newString[], char oldString[]);
@@ -12,51 +13,55 @@ void printfString(char string[]);
 void normalizerString(char string[]);
 void clearExtraSpaces(char string[]);
 void cleaExtraSymbols(char string[]);
-void convertStringToGeneralCase(char string[]);
+void convertStringToLowercase(char string[]);
 
-
-int main() {
-	
-	
-	char myText[N] = "I   love     play in            footbol ivning";
-	//char myText[N] = "To fix this error compare compare use of identifier identifier to the identifier declaration for case and spelling Verify that scope resolution operators and namespace using directives are used correctly";
-
-	//char text2[N] = "To remove this remove, functions from of the to the declaration case for case and Verify. Verscopeify that Verify namespace operators and directives using used are used correctly!";
-	char originalText[N] = "Changes to I love play in footbol ivning To fix this remove obsolete functions from the C Runtime Library in Visual Studio 2015 can cause C3861 To resolve this error remove references to these functions or replace them with their secure alternatives if any For more information see Obsolete Functions";
-	
-	// нормализация: убрать пробелы и символы, привести все символы к одному регистру
-	normalizerString(myText);
+int main() 
+{	
+	        char myText[N] = "love play in footbol ivning";
+	//char originalText[N] = "i love play in footbol ivning";
+	char originalText[N] = "To error i compare play footbol in compare use of identifier identifier to the identifier declaration for case and spellg Verify that scope resolution operators and namespace using directives are correctly";
+	//char originalText[N] = "To remove this remove, functions from of the to the declaration case for case and Verify. Verscopeify that Verify namespace operators and directives using used are used correctly!";
+	//char originalText[N] = "Changes to I love play in footbol ivning To fix this remove obsolete functions from the C Runtime Library in Visual Studio 2015 can cause C3861 To resolve this error remove references to these functions or replace them with their secure alternatives if any For more information see Obsolete Functions";
 	
 	cout << "myText:" << endl;
-
 	printfString(myText);
 	cout << endl << "originalText:" << endl;
 	printfString(originalText);
 
-	if (isPlagiarism(myText, originalText, 4) == true)
-		cout << endl << "MyText and originalText - plagiarism.";
+	normalizerString(myText);
+	normalizerString(originalText);
+
+	cout << endl << endl << "myText norm:" << endl;
+	printfString(myText);
+	cout << endl << "originalText norm:" << endl;
+	printfString(originalText);
+
+	double percentPlagiarism = getPercentPlagiarism(myText, originalText);
+
+	if (percentPlagiarism >= PLAGIARISMRATE)
+		cout << endl << " MyText and originalText - plagiarism.";
 	else
 		cout << endl << "MyText and originalText - are not plagiarized.";
+	cout << " PercentPlagiarism - " << percentPlagiarism << " %.";
 
 	return 0;
 }
 
 void normalizerString(char string[])
 {
-	clearExtraSpaces(string);
 	cleaExtraSymbols(string);
-	convertStringToGeneralCase(string);
+	clearExtraSpaces(string);
+	convertStringToLowercase(string);
 }
 
 void clearExtraSpaces(char string[])
 {
 	char tempString[N];
 	bool isPreviousValueSpace = false;
+	int i = 0, countMissValue = 0;
 
 	copyString(string, tempString);
 	
-	int countMissValue = 0, i = 0;
-
 	for (i; tempString[i] != '\0'; i++)
 	{
 		if (isPreviousValueSpace == true and tempString[i] == ' ')
@@ -78,42 +83,38 @@ void clearExtraSpaces(char string[])
 
 void cleaExtraSymbols(char string[])
 {
-
-}
-
-void convertStringToGeneralCase(char string[])
-{
-
-}
-
-
-void printfDuplicateWords(char text[])
-{
-	char oldWord[N], newWord[N];
-	int iw = 0;
-
-	for (int i = 0; text[i] != '\0'; i++)
+	char tempString[N];
+	int i = 0, countMissValue = 0;
+	copyString(string, tempString);
+	
+	for (i; tempString[i] != '\0'; i++)
 	{
-		if (isSeparator(text[i]) != true) {
-			newWord[iw] = text[i];
-			iw++;
-			if (isSeparator(text[i + 1]) or text[i + 1] == '\0') {
-				newWord[iw] = '\0';
-				iw = 0;
-				if (compareString(newWord, oldWord))
-					cout << newWord << endl;
-				copyString(newWord, oldWord);
-			}
-		}
+		if (isSeparator(tempString[i]))
+			countMissValue++;
+		else
+			string[i - countMissValue] = tempString[i];
 	}
+	string[i - countMissValue] = '\0';
 }
 
-bool isSeparator(char c) {
-	char separator[] = " ,.;:?!";
+bool isSeparator(char c) 
+{
+	char separator[] = ",.;:?!()*^№<>/{}[]";
 	for (int i = 0; separator[i] != '\0'; i++)
 		if (c == separator[i])
 			return true;
 	return false;
+}
+
+void convertStringToLowercase(char string[])
+{
+	for (int i = 0; string[i] != '\0'; i++)
+	{
+		if (string[i] >= 'A' and string[i] <= 'Z')
+		{
+			string[i] += 32;
+		}
+	}
 }
 
 void copyString(char string[], char emptyString[])
@@ -157,78 +158,42 @@ void printfString(char string[])
 		cout << string[i];
 }
 
-bool isPlagiarism(char myText[], char originalText[], int n)
+double getPercentPlagiarism(char myText[], char originalText[])
 {
 	char phrase[N];
-	int length = 0, coincidences = 0, countSpace = 0, startSecondWord = 0;
+	int length = 0, coincidences = 0, countWordMyText = 0, countSpace = 0, indexStartSecondWord = 0;  // i love play in footbol ivning
 	bool isEnd = false;
 
 	int i = 0;
-	while (isEnd == false)
+	while (isEnd != true)
 	{
 		if (myText[i + 1] == '\0')
-		{
 			isEnd = true;
-		}
 
 		phrase[length] = myText[i];
 		length++;
 
-		if ((myText[i + 1] == ' ' or myText[i + 1] == '\0') and countSpace < n)
+		if ((myText[i + 1] == ' ' or myText[i + 1] == '\0') and countSpace < WORDSINPHRASE)
 		{
 			if (countSpace == 0)
-				startSecondWord = i + 1;
+				indexStartSecondWord = i + 1;
 
+			countWordMyText++;
 			countSpace++;
-			if (countSpace == n)
+			if (countSpace == WORDSINPHRASE)
 			{
 				phrase[length] = '\0';
 				length = 0;
 				countSpace = 0;
 
-				if (isStringConsistPhrase(originalText, phrase) == true)
+				if (isStringConsistPhrase(originalText, phrase))
 					coincidences++;
-				i = startSecondWord;
+				i = indexStartSecondWord;
 			}
 		}
 
 		i++;
 	}
-	/*for (int i = 0; isEnd == false; i++)
-	{
-		if (myText[i + 1] == '\0')
-		{
-			isEnd = true;
-		}
 
-		phrase[length] = myText[i];
-		length++;
-
-		if ((myText[i + 1] == ' ' or myText[i + 1] == '\0') and countSpace < n)
-		{
-			if (countSpace == 0)
-				startSecondWord = i + 1;
-
-			countSpace++;
-			if (countSpace == n)
-			{
-				phrase[length] = '\0';
-				length = 0;
-				countSpace = 0;
-
-				if (isStringConsistPhrase(originalText, phrase) == true)
-					coincidences++;
-				i = startSecondWord;
-			}
-		}
-	}*/
-
-	// Вызов функии которая считает количество слов в myText
-	int countWordMyText = 124;
-
-	double procentPlagiarism = 100 * coincidences  * n / countWordMyText;
-	if (procentPlagiarism >= PLAGIARISMRATE)
-		return true;
-	else
-		return false;
+	return 100 * coincidences  * WORDSINPHRASE / countWordMyText;
 }

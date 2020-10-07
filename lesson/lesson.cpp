@@ -15,7 +15,7 @@ void copyString(char newString[], char oldString[]);
 bool compareString(char newString[], char oldString[]);
 void printfMaxLengthWord(char text[], char maxLengthWord[]);
 void printfString(char string[]);
-bool isPlagiarism(char text1[], char text2[]);
+bool getPercentPlagiarism(char text1[], char text2[]);
 bool isStringConsistPhrase(char text[], char word[]);
 
 int main() {
@@ -36,7 +36,7 @@ int main() {
 	printfString(text1);
 	cout << endl << "Text2:" << endl;
 	printfString(text2);
-	if (isPlagiarism(text1, text2))
+	if (getPercentPlagiarism(text1, text2))
 		cout << endl << "Text1 and text2 - plagiarism.";
 	else
 		cout << endl << "Text1 and text2 are not plagiarized.";
@@ -44,7 +44,7 @@ int main() {
 	return 0;
 }
 
-bool isPlagiarism(char text1[], char text2[])
+bool getPercentPlagiarism(char text1[], char text2[])
 {
 	char word[N];
 	int length = 0, sameWords = 0, wordText1 = 0;
