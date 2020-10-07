@@ -11,13 +11,12 @@ bool compareString(char newString[], char oldString[]);
 bool isSeparator(char c);
 void printfString(char string[]);
 void normalizerString(char string[]);
-void clearExtraSpaces(char string[]);
-void cleaExtraSymbols(char string[]);
-void convertStringToLowercase(char string[]);
+void clearExcessSymbol(char string[]);
+void convertStringToLowerCase(char string[]);
 
 int main() 
 {	
-	        char myText[N] = "love play in footbol ivning";
+	        char myText[N] = "love ,,,, play ?? in..,.,., footbol !!!ivnin????";
 	//char originalText[N] = "i love play in footbol ivning";
 	char originalText[N] = "To error i compare play footbol in compare use of identifier identifier to the identifier declaration for case and spellg Verify that scope resolution operators and namespace using directives are correctly";
 	//char originalText[N] = "To remove this remove, functions from of the to the declaration case for case and Verify. Verscopeify that Verify namespace operators and directives using used are used correctly!";
@@ -39,9 +38,9 @@ int main()
 	double percentPlagiarism = getPercentPlagiarism(myText, originalText);
 
 	if (percentPlagiarism >= PLAGIARISMRATE)
-		cout << endl << " MyText and originalText - plagiarism.";
+		cout << endl << endl << " MyText and originalText - plagiarism.";
 	else
-		cout << endl << "MyText and originalText - are not plagiarized.";
+		cout << endl << endl << "MyText and originalText - are not plagiarized.";
 	cout << " PercentPlagiarism - " << percentPlagiarism << " %.";
 
 	return 0;
@@ -49,12 +48,11 @@ int main()
 
 void normalizerString(char string[])
 {
-	cleaExtraSymbols(string);
-	clearExtraSpaces(string);
-	convertStringToLowercase(string);
+	clearExcessSymbol(string);
+	convertStringToLowerCase(string);
 }
 
-void clearExtraSpaces(char string[])
+void clearExcessSymbol(char string[])
 {
 	char tempString[N];
 	bool isPreviousValueSpace = false;
@@ -64,7 +62,7 @@ void clearExtraSpaces(char string[])
 	
 	for (i; tempString[i] != '\0'; i++)
 	{
-		if (isPreviousValueSpace == true and tempString[i] == ' ')
+		if (isPreviousValueSpace == true and tempString[i] == ' ' or isSeparator(tempString[i]))
 		{
 			countMissValue++;
 			continue;
@@ -78,35 +76,18 @@ void clearExtraSpaces(char string[])
 			isPreviousValueSpace = false;
 	}
 	string[i - countMissValue] = '\0';
-	// нужно научить функцию убирать пробелы в конце
-}
-
-void cleaExtraSymbols(char string[])
-{
-	char tempString[N];
-	int i = 0, countMissValue = 0;
-	copyString(string, tempString);
-	
-	for (i; tempString[i] != '\0'; i++)
-	{
-		if (isSeparator(tempString[i]))
-			countMissValue++;
-		else
-			string[i - countMissValue] = tempString[i];
-	}
-	string[i - countMissValue] = '\0';
 }
 
 bool isSeparator(char c) 
 {
-	char separator[] = ",.;:?!()*^№<>/{}[]";
+	char separator[] = ",.;:?!()*^№<>/{}[]&-=+#@";
 	for (int i = 0; separator[i] != '\0'; i++)
 		if (c == separator[i])
 			return true;
 	return false;
 }
 
-void convertStringToLowercase(char string[])
+void convertStringToLowerCase(char string[])
 {
 	for (int i = 0; string[i] != '\0'; i++)
 	{
