@@ -92,14 +92,12 @@ void clearExtraSpaces(char string[])
 	string[i - countMissValue] = '\0';
 }
 
-void cleaExtraSymbols(char string[])
-{
+void cleaExtraSymbols(char string[]) {
 	char tempString[N];
 	int i = 0, countMissValue = 0;
 	copyString(string, tempString);
 
-	for (i; tempString[i] != '\0'; i++)
-	{
+	for (i; tempString[i] != '\0'; i++) {
 		if (isSeparator(tempString[i]))
 			countMissValue++;
 		else
@@ -108,18 +106,14 @@ void cleaExtraSymbols(char string[])
 	string[i - countMissValue] = '\0';
 }
 
-bool isStringConsistPhrase(char text[], char phrase[])
-{
+bool isStringConsistPhrase(char text[], char phrase[]) {
 	for (int i = 0; text[i] != '\0'; i++)
-	{
-		for (int j = 0; phrase[j] != '\0'; j++)
-		{
+		for (int j = 0; phrase[j] != '\0'; j++) {
 			if (phrase[j] != text[i + j])
 				break;
 			if (phrase[j + 1] == '\0')
 				return true;
 		}
-	}
 	return false;
 }
 
