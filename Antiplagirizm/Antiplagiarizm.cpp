@@ -62,8 +62,7 @@ int main()
 	return 0;
 }
 
-void normalizerString(char string[])
-{
+void normalizerString(char string[]) {
 	cleaExtraSymbols(string);
 	clearExtraSpaces(string);
 	convertStringToLowercase(string);
