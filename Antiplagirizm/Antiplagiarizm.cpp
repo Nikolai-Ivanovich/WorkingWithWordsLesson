@@ -45,7 +45,6 @@ int main()
 	double percentPlagiarism = getPercentPlagiarism(myText, originalText);
 
 	if (percentPlagiarism >= PLAGIARISMRATE) {
-		
 		cout << endl;
 		changeColor(11); cout << "YOUR TEXT"; changeColor(15); cout << " and "; 
 		changeColor(11); cout << "ORIGINAL TEXT -  is plagiarism.";
@@ -57,7 +56,6 @@ int main()
 		changeColor(11); cout << "ORIGINAL TEXT -  are not plagiarism.";
 		changeColor(14);
 	}
-
 	cout << " Percent plagiarism: " << percentPlagiarism << " %."; changeColor(15);
 	cout << endl;
 
@@ -79,10 +77,8 @@ void clearExtraSpaces(char string[])
 
 	copyString(string, tempString);
 
-	for (i; tempString[i] != '\0'; i++)
-	{
-		if (isPreviousValueSpace == true and tempString[i] == ' ')
-		{
+	for (i; tempString[i] != '\0'; i++) {
+		if (isPreviousValueSpace == true and tempString[i] == ' ') {
 			countMissValue++;
 			continue;
 		}
@@ -129,30 +125,28 @@ bool isStringConsistPhrase(char text[], char phrase[])
 }
 
 
-double getPercentPlagiarism(char myText[], char originalText[])
-{
+double getPercentPlagiarism(char myText[], char originalText[]) {
 	char phrase[N];
 	int length = 0, coincidences = 0, countWordMyText = 0, countSpace = 0, indexStartSecondWord = 0;
 	bool isEnd = false;
 
 	int i = 0;
-	while (isEnd != true)
-	{
+	while (isEnd != true) {
+		
 		if (myText[i + 1] == '\0')
 			isEnd = true;
 
 		phrase[length] = myText[i];
 		length++;
 
-		if ((myText[i + 1] == ' ' or myText[i + 1] == '\0') and countSpace < WORDSINPHRASE)
-		{
+		if ((myText[i + 1] == ' ' or myText[i + 1] == '\0') and countSpace < WORDSINPHRASE) {
+			
 			if (countSpace == 0)
 				indexStartSecondWord = i + 1;
 
 			countWordMyText++;
 			countSpace++;
-			if (countSpace == WORDSINPHRASE)
-			{
+			if (countSpace == WORDSINPHRASE) {
 				phrase[length] = '\0';
 				length = 0;
 				countSpace = 0;
@@ -167,8 +161,7 @@ double getPercentPlagiarism(char myText[], char originalText[])
 	return 100 * coincidences * WORDSINPHRASE / countWordMyText;
 }
 
-bool isSeparator(char c)
-{
+bool isSeparator(char c) {
 	char separator[] = ",.;:?!()~*^№<>/{}@$[]=";
 	for (int i = 0; separator[i] != '\0'; i++)
 		if (c == separator[i])
@@ -176,39 +169,27 @@ bool isSeparator(char c)
 	return false;
 }
 
-void convertStringToLowercase(char string[])
-{
-	for (int i = 0; string[i] != '\0'; i++)
-	{
+void convertStringToLowercase(char string[]) {
+	for (int i = 0; string[i] != '\0'; i++) 
 		if (string[i] >= 'A' and string[i] <= 'Z')
-		{
 			string[i] += 32;
-		}
-	}
 }
 
-void copyString(char string[], char emptyString[])
-{
+void copyString(char string[], char emptyString[]) {
 	int i = 0;
 	for (i; string[i] != '\0'; i++)
-	{
 		emptyString[i] = string[i];
-	}
 	emptyString[i] = '\0';
 }
 
-bool compareString(char newString[], char oldString[])
-{
+bool compareString(char newString[], char oldString[]) {
 	for (int i = 0; newString[i] != '\0'; i++)
-	{
 		if (newString[i] != oldString[i])
 			return false;
-	}
 	return true;
 }
 
-void printfString(char string[])
-{
+void printfString(char string[]) {
 	for (int i = 0; string[i] != '\0'; i++)
 		cout << string[i];
 }
