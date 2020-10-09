@@ -19,11 +19,9 @@ void changeColor(int color);
 
 int main()
 {
-	char myText[N] = "I  */ like ====  play ~ $  @ football ) >> in =) ?? evening.";
-	//char originalText[N] = "i love play in football in evening";
-	char originalText[N] = "To error i compare play football in compare use of identifier identifier to the identifier declaration for case and spellg Verify that scope resolution operators and namespace using directives are correctly";
-	//char originalText[N] = "To remove this remove, functions from of the to the declaration case for case and Verify. Verscopeify that Verify namespace operators and directives using used are used correctly!";
-	//char originalText[N] = "Changes to I love play in footbol ivning To fix this remove obsolete functions from the C Runtime Library in Visual Studio 2015 can cause C3861 To resolve this error remove references to these functions or replace them with their secure alternatives if any For more information see Obsolete Functions";
+	char originalText[N] = "I  */ love ====  play ~ $ in @ football ) >>  =) ?? evening.";
+	//char myText[N] = "To error i compare  football use of identifier identifier to the identifier declaration for case and spellg Verify that scope resolution operators and namespace using directives are correctly";
+	char myText[N] = "To error i love play compare  football use of identifier identifier to the identifier declaration for case and spellg Verify that scope resolution operators and namespace using directives are correctly";
 
 	changeColor(10); cout << "[ * * * I can detect your text is plagiarism or not, check it out? Enter you line... * * * ]" << endl; changeColor(15);
 
@@ -33,15 +31,9 @@ int main()
 	changeColor(11); cout << endl << "ORIGINAL TEXT: " << endl; changeColor(15);
 	printfString(originalText); cout << endl; 
 
-	changeColor(10); cout << endl << "First, i normalized your text: " << endl; changeColor(15);
 	normalizerString(myText);
-	//normalizerString(originalText);
-	printfString(myText);
+	normalizerString(originalText);
 
-	/*cout << endl << "originalText norm:" << endl;
-	printfString(originalText);*/
-
-	cout << endl;
 	double percentPlagiarism = getPercentPlagiarism(myText, originalText);
 
 	if (percentPlagiarism >= PLAGIARISMRATE) {
@@ -116,7 +108,6 @@ bool isStringConsistPhrase(char text[], char phrase[]) {
 		}
 	return false;
 }
-
 
 double getPercentPlagiarism(char myText[], char originalText[]) {
 	char phrase[N];
